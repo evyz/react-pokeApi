@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router-dom'
-import { routes } from './contsts/routes'
+import { routes } from './consts/routes'
 
 function App() {
   return (

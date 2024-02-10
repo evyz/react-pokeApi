@@ -4,3 +4,8 @@ export type LoadListType<T> = {
     previous?: string;
     results: T[];
 }
+
+export type ListItem = {
+    name: string;
+    url: string;
+}

@@ -1,35 +1,20 @@
-import { Avatar, Button, Card, Skeleton, Typography } from "@mui/material"
-import { FC, useEffect } from "react"
-import useSWR from "swr";
-import { pokemonService } from "../../services/pokemon";
+import { Avatar, Button, Card, Typography } from "@mui/material"
+import { FC } from "react"
+import { PokemonType } from "../../types/pokemon";
 
 interface PokemonCardProps{
-    name: string;
-    url: string;
-    onOpenCard?: (id: string) => void;
+    data: PokemonType;
+    onOpenCard?: (id: number) => void;
 }
 
-export const PokemonCard: FC<PokemonCardProps> = ({name, url, onOpenCard}) => {
-
-    const urlParts = url.split('/')
-    const id = urlParts[urlParts.length - 2];
-
-    const {isLoading, error, data} = useSWR(url, () => pokemonService.getById(id))
-
-    useEffect(() => {
-        if(error){
-            console.log('error', error)
-            alert('Ошибка!')
-        }
-    }, [error])
-
+export const PokemonCard: FC<PokemonCardProps> = ({data, onOpenCard}) => {
     return (
         <Card style={{margin: 10, padding: 10}}>
-            {isLoading ? <Skeleton variant="circular" width={30} height={30} /> : <Avatar src={data?.sprites.front_default} alt={name} />}
-            <Typography>{name}</Typography>
+            <Avatar src={data?.sprites.front_default} alt={data.name} />
+            <Typography>{data.name}</Typography>
             {data?.weight && <Typography>Вес: {data.weight}</Typography>}
             {data?.height && <Typography>Рост: {data.height}</Typography>}
-            <Button onClick={() => onOpenCard?.(id)}>Открыть</Button>
+            <Button onClick={() => onOpenCard?.(data.id)}>Открыть</Button>
         </Card>
     )
 }
